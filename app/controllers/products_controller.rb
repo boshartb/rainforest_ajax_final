@@ -1,16 +1,17 @@
 class ProductsController < ApplicationController
 
   def index
-    @products = if params[:search]
-      Product.where("LOWER(name) LIKE LOWER(?)", "%#{params[:search]}%")
+    if params[:search]
+      @products = Product.where("LOWER(name) LIKE LOWER(?)", "%#{params[:search]}%")
     else
-      Product.all
+      @products = Product.all
     end
 
-    if request.xhr?
-      render partial: 'product_listing'
+    respond_to do |format|
+      format.html
+      format.js
     end
-  end
+  end 
 
   def show
     @product = Product.find(params[:id])
