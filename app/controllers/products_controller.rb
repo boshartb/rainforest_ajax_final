@@ -7,10 +7,15 @@ class ProductsController < ApplicationController
       @products = Product.all
     end
 
+    @products = Product.order('products.created_at DESC').page(params[:page])
+  
+
     respond_to do |format|
       format.html
       format.js
     end
+
+
   end 
 
   def show
